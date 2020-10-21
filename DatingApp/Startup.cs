@@ -15,6 +15,7 @@ namespace DatingApp
     using Microsoft.Extensions.Logging;
     using Infrastructure.DbContext;
     using Microsoft.EntityFrameworkCore;
+    using Services.Users;
 
     public class Startup
     {
@@ -34,6 +35,9 @@ namespace DatingApp
             {
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddScoped<IUserService, UserService>();
+
             services.AddControllers();
         }
 

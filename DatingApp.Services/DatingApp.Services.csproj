@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -7,7 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DatingApp.Infraestructure\DatingApp.Infrastructure.csproj" />
     <ProjectReference Include="..\DatingApp.Models\DatingApp.Models.csproj" />
-    <ProjectReference Include="..\DatingApp.Services\DatingApp.Services.csproj" />
   </ItemGroup>
 
 </Project>
