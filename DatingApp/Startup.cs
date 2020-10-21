@@ -30,7 +30,7 @@ namespace DatingApp
         {
             var connectionString = this.Configuration["Data:connectionString"];
 
-            services.AddDbContext<DatingDbContext>(options =>
+            services.AddDbContextPool<DatingDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });

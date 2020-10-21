@@ -21,5 +21,15 @@
         /// 
         /// </summary>
         public DbSet<AppUser> Users { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AppUser>().ToTable("AppUsers", "Dating.Authentication");
+        }
     }
 }
