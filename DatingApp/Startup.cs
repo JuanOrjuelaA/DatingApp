@@ -19,6 +19,8 @@ namespace DatingApp
 
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -38,6 +40,17 @@ namespace DatingApp
 
             services.AddScoped<IUserService, UserService>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200/")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             services.AddControllers();
         }
 
@@ -52,6 +65,8 @@ namespace DatingApp
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(this.MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 
