@@ -42,5 +42,23 @@ namespace DatingApp.Controllers
 
             return this.Ok(userCreated);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="registerDto"></param>
+        /// <returns></returns>
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto registerDto)
+        {
+            var user = await this.userService.LoginUser(registerDto);
+
+            if (!user.LoginWasSuccessful)
+            {
+                return this.Unauthorized(user.Message);
+            }
+
+            return this.Ok(user);
+        }
     }
 }

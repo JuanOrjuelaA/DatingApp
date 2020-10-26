@@ -3,6 +3,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Models.DTOs;
     using Models.Entities;
 
     public interface IUserService
@@ -34,5 +35,12 @@
         /// <param name="userName"></param>
         /// <returns></returns>
         Task<bool> UserExist(string userName);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginInfo"></param>
+        /// <returns></returns>
+        Task<LoginDto> LoginUser(LoginDto loginInfo);
     }
 }
