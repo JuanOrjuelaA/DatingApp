@@ -5,6 +5,8 @@ namespace DatingApp.Controllers
     using System.Threading.Tasks;
     using Base;
     using Models.DTOs;
+    using Models.Entities;
+    using Services.Jwt;
     using Services.Users;
 
     public class AccountController : BaseApiController
@@ -17,10 +19,17 @@ namespace DatingApp.Controllers
         /// <summary>
         /// 
         /// </summary>
+        private readonly ITokenService tokenService;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="userService"></param>
-        public AccountController(IUserService userService)
+        /// <param name="tokenService"></param>
+        public AccountController(IUserService userService, ITokenService tokenService)
         {
             this.userService = userService;
+            this.tokenService = tokenService;
         }
 
         /// <summary>
@@ -40,7 +49,12 @@ namespace DatingApp.Controllers
                 registerDto.UserName, 
                 registerDto.Password);
 
-            return this.Ok(userCreated);
+            
+            return this.Ok(new UserDto()
+            {
+                UserName = userCreated.UserName,
+                Token = this.tokenService.CreateToken(userCreated),
+            });
         }
 
         /// <summary>
@@ -58,7 +72,16 @@ namespace DatingApp.Controllers
                 return this.Unauthorized(user.Message);
             }
 
-            return this.Ok(user);
+            return this.Ok(new UserDto()
+            {
+                UserName = user.UserName,
+                Token = this.tokenService.CreateToken(new AppUser()
+                {
+                    UserName = user.UserName,
+                    PasswordSalt = user.PasswordSalt,
+                    PasswordHash = user.PasswordHash,
+                }),
+            });
         }
     }
 }
