@@ -2,12 +2,11 @@
 namespace DatingApp.Controllers
 {
     using System.Threading.Tasks;
+    using Base;
     using Microsoft.AspNetCore.Mvc;
     using Services.Users;
 
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : BaseApiController
     {
         /// <summary>
         /// 
