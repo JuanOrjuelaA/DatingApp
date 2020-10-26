@@ -58,7 +58,7 @@
 
             var user = new AppUser()
             {
-                UserName = userName,
+                UserName = userName.ToLower(),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
                 PasswordSalt = hmac.Key
             };
@@ -68,6 +68,12 @@
             await this.context.SaveChangesAsync();
 
             return user;
+        }
+
+
+        public async Task<bool> UserExist(string userName)
+        {
+            return await this.context.Users.AnyAsync(x => x.UserName.Equals(userName.ToLower()));
         }
     }
 }

@@ -27,5 +27,12 @@
         /// <param name="password"></param>
         /// <returns></returns>
         Task<AppUser> RegisterUser(string userName, string password);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        Task<bool> UserExist(string userName);
     }
 }

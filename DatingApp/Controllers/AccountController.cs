@@ -1,13 +1,10 @@
 ﻿
 namespace DatingApp.Controllers
 {
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Base;
+    using Models.DTOs;
     using Services.Users;
 
     public class AccountController : BaseApiController
@@ -29,13 +26,20 @@ namespace DatingApp.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
+        /// <param name="registerDto"></param>
         /// <returns></returns>
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUser(string userName, string password)
+        public async Task<IActionResult> RegisterUser(RegisterDto registerDto)
         {
-            var userCreated = await this.userService.RegisterUser(userName, password);
+            if (await this.userService.UserExist(registerDto.UserName))
+            {
+                return this.BadRequest("User name had already taken");
+            }
+
+            var userCreated = await this.userService.RegisterUser(
+                registerDto.UserName, 
+                registerDto.Password);
+
             return this.Ok(userCreated);
         }
     }
