@@ -106,12 +106,16 @@
 
             for (var i = 0; i < computedHash.Length; i++)
             {
-                if (computedHash[i] != userSelected.PasswordHash[i])
-                {
-                    loginInfo.LoginWasSuccessful = false;
-                    loginInfo.Message = "Invalid password";
-                }
+                if (computedHash[i] == userSelected.PasswordHash[i]) 
+                    continue;
+
+                loginInfo.LoginWasSuccessful = false;
+                loginInfo.Message = "Invalid password";
+                return loginInfo;
             }
+
+            loginInfo.PasswordHash = userSelected.PasswordHash;
+            loginInfo.PasswordSalt = userSelected.PasswordSalt;
 
             return loginInfo;
         }

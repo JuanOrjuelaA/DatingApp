@@ -3,6 +3,7 @@ namespace DatingApp.Controllers
 {
     using System.Threading.Tasks;
     using Base;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Services.Users;
 
@@ -27,6 +28,7 @@ namespace DatingApp.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserList()
         {
             var result = await this.userService.GetAvailableUsers();
@@ -38,6 +40,7 @@ namespace DatingApp.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {

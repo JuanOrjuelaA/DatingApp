@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0-rc.2.20475.17" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DatingApp.Infraestructure\DatingApp.Infrastructure.csproj" />
     <ProjectReference Include="..\DatingApp.Models\DatingApp.Models.csproj" />
     <ProjectReference Include="..\DatingApp.Services\DatingApp.Services.csproj" />

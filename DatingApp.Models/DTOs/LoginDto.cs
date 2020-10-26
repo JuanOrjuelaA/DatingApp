@@ -19,6 +19,16 @@
         /// <summary>
         /// 
         /// </summary>
+        public byte[] PasswordHash { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public byte[] PasswordSalt { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool LoginWasSuccessful { get; set; }
 
         /// <summary>
