@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Users\UserService.cs~RF1d898fb4.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DatingApp.Infraestructure\DatingApp.Infrastructure.csproj" />
     <ProjectReference Include="..\DatingApp.Models\DatingApp.Models.csproj" />
   </ItemGroup>

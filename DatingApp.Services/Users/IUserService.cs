@@ -19,5 +19,13 @@
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<AppUser> GetUser(int userId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        Task<AppUser> RegisterUser(string userName, string password);
     }
 }

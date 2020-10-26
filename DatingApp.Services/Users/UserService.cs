@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
     using System.Threading.Tasks;
     using Infrastructure.DbContext;
     using Microsoft.EntityFrameworkCore;
@@ -42,6 +44,30 @@
             var result = await this.context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
 
             return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public async Task<AppUser> RegisterUser(string userName, string password)
+        {
+            using var hmac = new HMACSHA512();
+
+            var user = new AppUser()
+            {
+                UserName = userName,
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password)),
+                PasswordSalt = hmac.Key
+            };
+
+            await this.context.Users.AddAsync(user);
+
+            await this.context.SaveChangesAsync();
+
+            return user;
         }
     }
 }
