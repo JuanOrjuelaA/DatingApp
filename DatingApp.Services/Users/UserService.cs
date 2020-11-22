@@ -2,12 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices.ComTypes;
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
-    using Infrastructure.DbContext;
-    using Microsoft.EntityFrameworkCore;
+    using Infrastructure.Repositories.Users;
     using Models.DTOs;
     using Models.Entities;
 
@@ -16,15 +14,15 @@
         /// <summary>
         /// 
         /// </summary>
-        private readonly DatingDbContext context;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context"></param>
-        public UserService(DatingDbContext context)
+        /// <param name="userRepository"></param>
+        public UserService(IUserRepository userRepository)
         {
-            this.context = context;
+            this.userRepository = userRepository;
         }
 
         /// <summary>
@@ -33,7 +31,7 @@
         /// <returns></returns>
         public async Task<IEnumerable<AppUser>> GetAvailableUsers()
         {
-            return await this.context.Users.ToListAsync();
+            return await this.userRepository.GetUsersAsync();
         }
 
         /// <summary>
@@ -43,7 +41,7 @@
         /// <returns></returns>
         public async Task<AppUser> GetUser(int userId)
         {
-            var result = await this.context.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+            var result = await this.userRepository.GetUserByIdAsync(userId);
 
             return result;
         }
@@ -65,9 +63,9 @@
                 PasswordSalt = hmac.Key
             };
 
-            await this.context.Users.AddAsync(user);
+            await this.userRepository.AddUserAsync(user);
 
-            await this.context.SaveChangesAsync();
+            await this.userRepository.SaveAllAsync();
 
             return user;
         }
@@ -79,7 +77,7 @@
         /// <returns></returns>
         public async Task<bool> UserExist(string userName)
         {
-            return await this.context.Users.AnyAsync(x => x.UserName.Equals(userName.ToLower()));
+            return await this.userRepository.GetUserByUserName(userName) != null;
         }
 
         /// <summary>
@@ -90,8 +88,7 @@
         public async Task<LoginDto> LoginUser(LoginDto loginInfo)
         {
             loginInfo.LoginWasSuccessful = true;
-            var userSelected = await this.context.Users
-                .SingleOrDefaultAsync(x => x.UserName.Equals(loginInfo.UserName.ToLower()));
+            var userSelected = await this.userRepository.GetUserByUserName(loginInfo.UserName.ToLower());
 
             if (userSelected == null)
             {
@@ -104,11 +101,8 @@
 
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginInfo.Password));
 
-            for (var i = 0; i < computedHash.Length; i++)
+            if (computedHash.Where((t, i) => t != userSelected.PasswordHash[i]).Any())
             {
-                if (computedHash[i] == userSelected.PasswordHash[i]) 
-                    continue;
-
                 loginInfo.LoginWasSuccessful = false;
                 loginInfo.Message = "Invalid password";
                 return loginInfo;

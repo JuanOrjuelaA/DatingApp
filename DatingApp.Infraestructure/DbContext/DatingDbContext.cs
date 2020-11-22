@@ -30,6 +30,7 @@
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AppUser>().ToTable("AppUsers", "Dating.Authentication");
+            modelBuilder.Entity<Photo>().ToTable("Photos", "Dating.Authentication");
         }
     }
 }

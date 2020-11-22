@@ -1,5 +1,6 @@
 ﻿namespace DatingApp.Services.Extensions
 {
+    using Infrastructure.Repositories.Users;
     using Jwt;
     using Microsoft.Extensions.DependencyInjection;
     using Users;
@@ -13,6 +14,7 @@
         /// <returns></returns>
         public static IServiceCollection AddDatingServices(this IServiceCollection services)
         {
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
             return services;
