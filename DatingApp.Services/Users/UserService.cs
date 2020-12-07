@@ -50,6 +50,16 @@
         /// 
         /// </summary>
         /// <param name="userName"></param>
+        /// <returns></returns>
+        public async Task<AppUser> GetUserByName(string userName)
+        {
+            return await this.userRepository.GetUserByUserName(userName);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
         public async Task<AppUser> RegisterUser(string userName, string password)

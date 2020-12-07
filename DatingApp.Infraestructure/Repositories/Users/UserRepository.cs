@@ -56,7 +56,10 @@
         /// <returns></returns>
         public async Task<AppUser> GetUserByIdAsync(int id)
         {
-            return await this.context.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return await this.context.Users
+                .Where(x => x.Id == id)
+                .Include(p => p.Photos)
+                .FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -66,7 +69,9 @@
         /// <returns></returns>
         public async Task<AppUser> GetUserByUserName(string userName)
         {
-            return await this.context.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+            return await this.context.Users.Where(x => x.UserName == userName)
+                .Include(p => p.Photos)
+                .FirstOrDefaultAsync();
         }
 
         /// <summary>

@@ -38,13 +38,13 @@ namespace DatingApp.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="userName"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(int id)
+        [HttpGet("{userName}")]
+        public async Task<IActionResult> GetUser(string userName)
         {
-            var user = await this.userService.GetUser(id);
+            var user = await this.userService.GetUserByName(userName);
             return this.Ok(user);
         }
     }
