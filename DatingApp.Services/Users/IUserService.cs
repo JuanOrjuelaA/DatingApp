@@ -12,7 +12,7 @@
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<AppUser>> GetAvailableUsers();
+        Task<IEnumerable<MemberDto>> GetAvailableUsers();
 
         /// <summary>
         /// 
@@ -26,7 +26,7 @@
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
-        Task<AppUser> GetUserByName(string userName);
+        Task<MemberDto> GetUserByName(string userName);
 
         /// <summary>
         /// 

@@ -5,6 +5,7 @@
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Infrastructure.Repositories.Users;
     using Models.DTOs;
     using Models.Entities;
@@ -19,19 +20,28 @@
         /// <summary>
         /// 
         /// </summary>
+        private readonly IMapper mapper;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="userRepository"></param>
-        public UserService(IUserRepository userRepository)
+        /// <param name="mapper"></param>
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
+            this.mapper = mapper;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<AppUser>> GetAvailableUsers()
+        public async Task<IEnumerable<MemberDto>> GetAvailableUsers()
         {
-            return await this.userRepository.GetUsersAsync();
+            var users =  await this.userRepository.GetUsersAsync();
+
+            return this.mapper.Map<IEnumerable<MemberDto>>(users);
         }
 
         /// <summary>
@@ -51,9 +61,11 @@
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public async Task<AppUser> GetUserByName(string userName)
+        public async Task<MemberDto> GetUserByName(string userName)
         {
-            return await this.userRepository.GetUserByUserName(userName);
+            var user = await this.userRepository.GetUserByUserName(userName);
+
+            return this.mapper.Map<MemberDto>(user);
         }
 
         /// <summary>

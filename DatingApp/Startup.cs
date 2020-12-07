@@ -34,6 +34,7 @@ namespace DatingApp
             services.InitializeDatingAppDatabase(connectionString);
 
             services.AddDatingServices();
+           
 
             services.AddCors(options =>
             {
