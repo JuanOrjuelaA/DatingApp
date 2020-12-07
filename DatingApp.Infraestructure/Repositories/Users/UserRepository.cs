@@ -46,7 +46,9 @@
         /// <returns></returns>
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
-          return await this.context.Users.ToListAsync();
+          return await this.context.Users
+              .Include(p => p.Photos)
+              .ToListAsync();
         }
 
         /// <summary>
