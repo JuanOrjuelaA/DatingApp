@@ -39,9 +39,7 @@
         /// <returns></returns>
         public async Task<IEnumerable<MemberDto>> GetAvailableUsers()
         {
-            var users =  await this.userRepository.GetUsersAsync();
-
-            return this.mapper.Map<IEnumerable<MemberDto>>(users);
+            return await this.userRepository.GetUsersAsync();
         }
 
         /// <summary>

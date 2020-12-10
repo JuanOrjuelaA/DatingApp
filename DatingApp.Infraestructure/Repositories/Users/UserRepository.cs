@@ -53,10 +53,10 @@
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<AppUser>> GetUsersAsync()
+        public async Task<IEnumerable<MemberDto>> GetUsersAsync()
         {
           return await this.context.Users
-              .Include(p => p.Photos)
+              .ProjectTo<MemberDto>(this.mapper.ConfigurationProvider)
               .ToListAsync();
         }
 

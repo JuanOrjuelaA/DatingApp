@@ -23,7 +23,7 @@
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<AppUser>> GetUsersAsync();
+        Task<IEnumerable<MemberDto>> GetUsersAsync();
 
         /// <summary>
         /// 
