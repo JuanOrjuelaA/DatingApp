@@ -2,7 +2,6 @@
 {
     using System; 
     using System.Collections.Generic;
-    using Extensions;
 
     public class AppUser
     {
@@ -80,15 +79,6 @@
         /// 
         /// </summary>
         public ICollection<Photo> Photos { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int GetAge()
-        {
-            return this.DateOfBirth.CalculateAge();
-        }
 
     }
 }

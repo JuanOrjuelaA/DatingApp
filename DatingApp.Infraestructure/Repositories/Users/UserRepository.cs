@@ -3,8 +3,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using DbContext;
     using Microsoft.EntityFrameworkCore;
+    using Models.DTOs;
     using Models.Entities;
 
     public class UserRepository : IUserRepository
@@ -17,9 +20,15 @@
         /// <summary>
         /// 
         /// </summary>
-        public UserRepository(DatingDbContext context)
+        private readonly IMapper mapper;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public UserRepository(DatingDbContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -61,6 +70,19 @@
             return await this.context.Users
                 .Where(x => x.Id == id)
                 .Include(p => p.Photos)
+                .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public async Task<MemberDto> GetMemberByUserName(string userName)
+        {
+            return await this.context.Users
+                .Where(x => x.UserName == userName)
+                .ProjectTo<MemberDto>(this.mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
         }
 

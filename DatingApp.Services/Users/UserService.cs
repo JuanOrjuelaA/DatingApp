@@ -63,9 +63,7 @@
         /// <returns></returns>
         public async Task<MemberDto> GetUserByName(string userName)
         {
-            var user = await this.userRepository.GetUserByUserName(userName);
-
-            return this.mapper.Map<MemberDto>(user);
+            return  await this.userRepository.GetMemberByUserName(userName);
         }
 
         /// <summary>

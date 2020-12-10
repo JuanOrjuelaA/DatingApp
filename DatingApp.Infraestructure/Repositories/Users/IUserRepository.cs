@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Models.DTOs;
     using Models.Entities;
 
     public interface IUserRepository
@@ -37,6 +38,13 @@
         /// <param name="userName"></param>
         /// <returns></returns>
         Task<AppUser> GetUserByUserName(string userName);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        Task<MemberDto> GetMemberByUserName(string userName);
 
         /// <summary>
         /// 
