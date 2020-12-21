@@ -27,6 +27,7 @@
                 using var hmac = new HMACSHA512();
                 item.UserName = item.UserName.ToLower();
                 item.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
+                item.PasswordSalt = hmac.Key;
                 context.Users.Add(item);
             });
 
