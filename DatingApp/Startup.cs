@@ -1,6 +1,4 @@
 
-using DatingApp.Middleware;
-
 namespace DatingApp
 {
 
@@ -9,11 +7,12 @@ namespace DatingApp
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
     using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.IdentityModel.Tokens;
+    using Microsoft.OpenApi.Models;
     using Services.Extensions;
+    using DatingApp.Middleware;
 
     public class Startup
     {
@@ -30,6 +29,20 @@ namespace DatingApp
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = this.Configuration["Data:connectionString"];
+
+            // Swagger
+            services.AddSwaggerGen(options =>
+            {
+                var info = new OpenApiInfo 
+                {
+                    Title = "Dating Api",
+                    Version = "v1",
+                    Description = "API for Dating app",
+                    Contact = new OpenApiContact() { Name = "Witz", },
+                };
+                options.SwaggerDoc("v1", info);
+                options.DescribeAllParametersInCamelCase();
+            });
 
             services.InitializeDatingAppDatabase(connectionString);
 
@@ -66,6 +79,13 @@ namespace DatingApp
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Dating API V1");
+            });
 
             app.UseHttpsRedirection();
 
