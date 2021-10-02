@@ -1,6 +1,5 @@
 ﻿namespace DatingApp.Services.Users
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Models.DTOs;

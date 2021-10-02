@@ -1,6 +1,5 @@
 ﻿namespace DatingApp.Services.Jwt
 {
-    using System.Threading.Tasks;
     using Models.Entities;
 
     public interface ITokenService
