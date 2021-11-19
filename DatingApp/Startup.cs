@@ -13,6 +13,7 @@ namespace DatingApp
     using Microsoft.OpenApi.Models;
     using Services.Extensions;
     using DatingApp.Middleware;
+    using System.Text.Json;
 
     public class Startup
     {
@@ -60,7 +61,13 @@ namespace DatingApp
                     });
             });
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

@@ -6,8 +6,10 @@
     using System.Threading.Tasks;
     using DatingApp.Models.Models;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
 
     public class ExceptionMiddleware
     {
@@ -29,17 +31,24 @@
         /// <summary>
         /// 
         /// </summary>
+        private readonly JsonSerializerOptions jsonSerializerOptions;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="next"></param>
         /// <param name="logger"></param>
         /// <param name="env"></param>
         public ExceptionMiddleware(
             RequestDelegate next, 
             ILogger<ExceptionMiddleware> logger, 
-            IHostEnvironment env)
+            IHostEnvironment env,
+            IOptions<JsonOptions> jsonOptions)
         {
             this.next = next;
             this.logger = logger;
             this.env = env;
+            this.jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
         }
 
         /// <summary>
@@ -63,12 +72,7 @@
                     ? new ApiException(context.Response.StatusCode, e.Message, e.StackTrace?.ToString())
                     : new ApiException(context.Response.StatusCode, "Internal Error");
 
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                };
-
-                var json = JsonSerializer.Serialize(response, options);
+                var json = JsonSerializer.Serialize(response, this.jsonSerializerOptions);
 
                 await context.Response.WriteAsync(json);
             }
