@@ -20,17 +20,11 @@
         /// <summary>
         /// 
         /// </summary>
-        private readonly IMapper mapper;
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="userRepository"></param>
         /// <param name="mapper"></param>
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
-            this.mapper = mapper;
         }
 
         /// <summary>
